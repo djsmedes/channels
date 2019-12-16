@@ -15,7 +15,6 @@ setup(
     install_requires=[
         'Django>=2.2',
         'asgiref~=3.2',
-        'daphne~=2.3',
     ],
     extras_require={
         'tests': [
@@ -26,6 +25,9 @@ setup(
             "async-timeout~=3.0",
             'coverage~=4.5',
         ],
+        'daphne': [
+            'daphne~=2.3'
+        ]
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',

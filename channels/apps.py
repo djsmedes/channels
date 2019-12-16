@@ -1,12 +1,5 @@
 from django.apps import AppConfig
 
-# We import this here to ensure the reactor is installed very early on
-# in case other packages accidentally import twisted.internet.reactor
-# (e.g. raven does this).
-import daphne.server
-
-assert daphne.server  # pyflakes doesn't support ignores
-
 
 class ChannelsConfig(AppConfig):
 
@@ -14,7 +7,13 @@ class ChannelsConfig(AppConfig):
     verbose_name = "Channels"
 
     def ready(self):
-        # Do django monkeypatches
-        from .hacks import monkeypatch_django
+        try:
+            import daphne.server
+        except:
+            pass
+        else:
+            assert daphne.server
+            # Do django monkeypatches
+            from .hacks import monkeypatch_django
 
-        monkeypatch_django()
+            monkeypatch_django()
