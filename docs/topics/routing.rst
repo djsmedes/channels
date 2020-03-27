@@ -28,7 +28,9 @@ but we recommend putting them in a project-level file called ``routing.py``,
 next to ``urls.py``. You can read more about deploying Channels projects and
 settings in :doc:`/deploying`.
 
-Here's an example of what that ``routing.py`` might look like::
+Here's an example of what that ``routing.py`` might look like:
+
+.. code-block:: python
 
     from django.conf.urls import url
 
@@ -71,7 +73,9 @@ value that their scope contains, so you can use this to distinguish between
 incoming connection types.
 
 It takes a single argument - a dictionary mapping type names to ASGI
-applications that serve them::
+applications that serve them:
+
+.. code-block:: python
 
     ProtocolTypeRouter({
         "http": some_app,
@@ -87,6 +91,7 @@ If you want to split HTTP handling between long-poll handlers and Django views,
 use a URLRouter with ``channels.http.AsgiHandler`` specified as the last entry
 with a match-everything pattern.
 
+.. _urlrouter:
 
 URLRouter
 ---------
@@ -94,7 +99,9 @@ URLRouter
 ``channels.routing.URLRouter``
 
 Routes ``http`` or ``websocket`` type connections via their HTTP path. Takes
-a single argument, a list of Django URL objects (either ``path()`` or ``url()``)::
+a single argument, a list of Django URL objects (either ``path()`` or ``url()``):
+
+.. code-block:: python
 
     URLRouter([
         url(r"^longpoll/$", LongPollConsumer),
@@ -109,12 +116,15 @@ and unnamed groups cannot be mixed: Positional groups are discarded as soon
 as a single named group is matched.
 
 For example, to pull out the named group ``stream`` in the example above, you
-would do this::
+would do this:
+
+.. code-block:: python
 
     stream = self.scope["url_route"]["kwargs"]["stream"]
 
 Please note that ``URLRouter`` nesting will not work properly with
 ``path()`` routes if inner routers are wrapped by additional middleware.
+See `Issue #1428 <https://github.com/django/channels/issues/1428>`__.
 
 
 ChannelNameRouter
@@ -126,7 +136,9 @@ Routes ``channel`` type scopes based on the value of the ``channel`` key in
 their scope. Intended for use with the :doc:`/topics/worker`.
 
 It takes a single argument - a dictionary mapping channel names to ASGI
-applications that serve them::
+applications that serve them:
+
+.. code-block:: python
 
     ChannelNameRouter({
         "thumbnails-generate": some_app,
